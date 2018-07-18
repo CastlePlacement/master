@@ -4,7 +4,8 @@ print("Starting to do prediction.../n")
 ### Export data back to filemaker
 import os
 import pickle
-src = os.path.expanduser('~/Documents')
+#src = os.path.expanduser('~/Documents')
+src = os.path.dirname(os.path.realpath(__file__))
 #os.chdir('C:/Users/Zhixiong Cheng/Desktop/castle placement/___LIZZY_FRANK__Blendr.io_-_more_info_requested_on_Filemaker_pro_-_Amazon_machine_learning/ML_v2/ML_v2')
 os.chdir(src)
 #Import LogReg function from ML_train
