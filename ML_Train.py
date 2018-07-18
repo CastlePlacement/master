@@ -129,8 +129,10 @@ filename = 'finalized_model.sav'
 import os
 #dir_fd = os.open('C:/Users/Zhixiong Cheng/Desktop/castle placement/___LIZZY_FRANK__Blendr.io_-_more_info_requested_on_Filemaker_pro_-_Amazon_machine_learning/ML_v2/ML_v2', os.O_RDONLY)
 #src = 'C:/Users/Zhixiong Cheng/Desktop/castle placement/___LIZZY_FRANK__Blendr.io_-_more_info_requested_on_Filemaker_pro_-_Amazon_machine_learning/ML_v2/ML_v2'
-src = os.path.expanduser('~/Documents')
+#src = os.path.expanduser('~/Documents')
+src = os.path.dirname(os.path.realpath(__file__))
 path = os.path.join(src, filename)
+print(path)
 with open(path, "wb") as f:
     #f.write("chcjcj".encode())
     pickle.dump(LogReg, f)
