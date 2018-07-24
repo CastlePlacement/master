@@ -98,7 +98,10 @@ for i in range(len(LastN)):
     LastN[i] = LastN[i].replace("\'", "\"")
 for i in range(len(FirstN)):
     FirstN[i] = FirstN[i].replace("\'", "\"")
+for i in range(len(Email)):
+    Email[i] = Email[i].replace("\'", "\"")
 
+    
 print("Inserting result to table MachineLearningPredictionData3..../n")
 CONNECTION_STRING = "DSN=filemaker;UID=InternTemp;PWD=Castle0905"
 connection = pyodbc.connect(CONNECTION_STRING)
