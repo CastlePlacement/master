@@ -2,6 +2,7 @@ print("Starting to do prediction.../n")
 
 # In[135]:
 ### Export data back to filemaker
+print("Loading Libraries..../n")
 import os
 import pickle
 #src = os.path.expanduser('~/Documents')
@@ -9,10 +10,7 @@ src = os.path.dirname(os.path.realpath(__file__))
 #os.chdir('C:/Users/Zhixiong Cheng/Desktop/castle placement/___LIZZY_FRANK__Blendr.io_-_more_info_requested_on_Filemaker_pro_-_Amazon_machine_learning/ML_v2/ML_v2')
 os.chdir(src)
 #Import LogReg function from ML_train
-# load the model from disk
-print("Loading model..../n")
-LogReg = pickle.load(open('finalized_model.sav', 'rb'))#, encoding="ISO-8859-1"
-#pickle.dump(worddict, open('finalized_model.sav', 'rb'), protocol=2)
+
 
 import pyodbc
 # Import panadas to mangage data structure
@@ -21,8 +19,8 @@ import numpy as np
 
 
 # read deal data:
-Deal_data=pd.read_csv('deal.csv', sep=',',header=None)
-Deal_data = Deal_data[list(range(14))]
+Deal_data_raw=pd.read_csv('deal.csv', sep=',',header=None)
+Deal_data = Deal_data_raw[list(range(14))]
 #pd.concat([Deal_data]*5)
 Deal_data = np.array(Deal_data)
 
@@ -33,6 +31,25 @@ contact_data = pd.read_csv('contact.csv', sep=',',header=None)
 local_deal=pd.read_csv('deal_all.csv', sep=',',header=None)
 
 #local_deal = local_deal.drop(4, axis = 1)
+
+# load the model from disk
+print("Loading model..../n")
+
+CapitalRaiseType = Deal_data_raw[14]
+RealEstateYN = Deal_data_raw[15]
+print(CapitalRaiseType)
+print(RealEstateYN)
+
+if "PrivateEquity" in set(str(Deal_data_raw[14][0]).split('\x0b')) and "SeniorDebt" not in set(str(Deal_data_raw[14][0]).split('\x0b')) and "SubDebtMezz" not in set(str(Deal_data_raw[14][0]).split('\x0b')):
+  LogReg = pickle.load(open('finalized_model_PE.sav', 'rb'))#, encoding="ISO-8859-1"
+  print("PE Only")
+elif "PrivateEquity" in set(str(Deal_data_raw[14][0]).split('\x0b')) and ("SeniorDebt" in set(str(Deal_data_raw[14][0]).split('\x0b')) or "SubDebtMezz" in set(str(Deal_data_raw[14][0]).split('\x0b'))):
+  LogReg = pickle.load(open('finalized_model_PEDebt.sav', 'rb'))#, encoding="ISO-8859-1"
+  print("PE and Debt")
+elif "PrivateEquity" in set(str(Deal_data_raw[14][0]).split('\x0b')) and ("SeniorDebt" in set(str(Deal_data_raw[14][0]).split('\x0b')) or "SubDebtMezz" in set(str(Deal_data_raw[14][0]).split('\x0b'))):
+  LogReg = pickle.load(open('finalized_model_Debt.sav', 'rb'))#, encoding="ISO-8859-1"
+  print("Debt Only")
+#pickle.dump(worddict, open('finalized_model.sav', 'rb'), protocol=2)
 
 # combine contact table and deal_all table:
 temp_tab = contact_data.merge(local_deal, on=[0, 1, 2], how='left')
@@ -98,10 +115,7 @@ for i in range(len(LastN)):
     LastN[i] = LastN[i].replace("\'", "\"")
 for i in range(len(FirstN)):
     FirstN[i] = FirstN[i].replace("\'", "\"")
-for i in range(len(Email)):
-    Email[i] = Email[i].replace("\'", "\"")
 
-    
 print("Inserting result to table MachineLearningPredictionData3..../n")
 CONNECTION_STRING = "DSN=filemaker;UID=InternTemp;PWD=Castle0905"
 connection = pyodbc.connect(CONNECTION_STRING)
