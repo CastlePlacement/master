@@ -39,6 +39,7 @@ CapitalRaiseType = Deal_data_raw[14]
 RealEstateYN = Deal_data_raw[15]
 print(CapitalRaiseType)
 print(RealEstateYN)
+print(set(str(Deal_data_raw[14][0]).split('\x0b'))) # BolderRoofco
 
 if "PrivateEquity" in set(str(Deal_data_raw[14][0]).split('\x0b')) and "SeniorDebt" not in set(str(Deal_data_raw[14][0]).split('\x0b')) and "SubDebtMezz" not in set(str(Deal_data_raw[14][0]).split('\x0b')):
   LogReg = pickle.load(open('finalized_model_PE.sav', 'rb'))#, encoding="ISO-8859-1"
@@ -46,7 +47,7 @@ if "PrivateEquity" in set(str(Deal_data_raw[14][0]).split('\x0b')) and "SeniorDe
 elif "PrivateEquity" in set(str(Deal_data_raw[14][0]).split('\x0b')) and ("SeniorDebt" in set(str(Deal_data_raw[14][0]).split('\x0b')) or "SubDebtMezz" in set(str(Deal_data_raw[14][0]).split('\x0b'))):
   LogReg = pickle.load(open('finalized_model_PEDebt.sav', 'rb'))#, encoding="ISO-8859-1"
   print("PE and Debt")
-elif "PrivateEquity" in set(str(Deal_data_raw[14][0]).split('\x0b')) and ("SeniorDebt" in set(str(Deal_data_raw[14][0]).split('\x0b')) or "SubDebtMezz" in set(str(Deal_data_raw[14][0]).split('\x0b'))):
+elif "PrivateEquity" not in set(str(Deal_data_raw[14][0]).split('\x0b')) and ("SeniorDebt" in set(str(Deal_data_raw[14][0]).split('\x0b')) or "SubDebtMezz" in set(str(Deal_data_raw[14][0]).split('\x0b'))):
   LogReg = pickle.load(open('finalized_model_Debt.sav', 'rb'))#, encoding="ISO-8859-1"
   print("Debt Only")
 #pickle.dump(worddict, open('finalized_model.sav', 'rb'), protocol=2)
@@ -115,6 +116,8 @@ for i in range(len(LastN)):
     LastN[i] = LastN[i].replace("\'", "\"")
 for i in range(len(FirstN)):
     FirstN[i] = FirstN[i].replace("\'", "\"")
+for i in range(len(Email)):
+    Email[i] = Email[i].replace("\'", "\"")
 
 print("Inserting result to table MachineLearningPredictionData3..../n")
 CONNECTION_STRING = "DSN=filemaker;UID=InternTemp;PWD=Castle0905"
