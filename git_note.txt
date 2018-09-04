@@ -1,0 +1,15 @@
+cd "C:\Users\Zhixiong Cheng\Desktop\castle placement\CP_code"
+
+git init
+
+git add ML_Train.py // git add ML_Export.py
+
+
+git commit -m "ML Train - first" // git commit -m "ML_Export.py - Email"
+
+git remote add origin https://github.com/CastlePlacement/master.git
+
+git push -u origin master
+
+Username: CastlePlacement
+Password: Castle0905
