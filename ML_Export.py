@@ -120,7 +120,7 @@ for i in range(len(Email)):
     Email[i] = Email[i].replace("\'", "\"")
 
 print("Inserting result to table MachineLearningPredictionData3..../n")
-CONNECTION_STRING = "DSN=filemaker;UID=InternTemp;PWD=Castle0905"
+CONNECTION_STRING = "DSN=filemaker;UID=InternTemp;PWD=Castle1460!"
 connection = pyodbc.connect(CONNECTION_STRING)
 cursor = connection.cursor()
 # Change the format of output data required by SQL
