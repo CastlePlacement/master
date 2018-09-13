@@ -50,6 +50,8 @@ elif "PrivateEquity" in set(str(Deal_data_raw[14][0]).split('\x0b')) and ("Senio
 elif "PrivateEquity" not in set(str(Deal_data_raw[14][0]).split('\x0b')) and ("SeniorDebt" in set(str(Deal_data_raw[14][0]).split('\x0b')) or "SubDebtMezz" in set(str(Deal_data_raw[14][0]).split('\x0b'))):
   LogReg = pickle.load(open('finalized_model_Debt.sav', 'rb'))#, encoding="ISO-8859-1"
   print("Debt Only")
+else:
+  print("This deal is not 'PE', 'PE and Debt' or 'Debt Only' categories")
 #pickle.dump(worddict, open('finalized_model.sav', 'rb'), protocol=2)
 
 # combine contact table and deal_all table:
